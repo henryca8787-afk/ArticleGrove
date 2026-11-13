@@ -5,12 +5,12 @@ import { getCategories } from "@/lib/content";
 export default async function SiteHeader() {
   const categories = await getCategories();
   const links = categories.slice(0, 7);
+
   return (
     <>
       <div className="utility-bar">
         <div className="wrap utility-inner">
           <span>Independent publishing for curious readers</span>
-          <div><Link href="/about">About</Link><Link href="/contact">Contact</Link></div>
         </div>
       </div>
       <header className="masthead">
@@ -25,7 +25,7 @@ export default async function SiteHeader() {
             <nav aria-label="Mobile navigation">
               <Link href="/">Home</Link><Link href="/articles">Latest articles</Link>
               {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
-              <Link href="/categories">All topics</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link>
+              <Link href="/categories">All topics</Link>
             </nav>
           </details>
         </div>
