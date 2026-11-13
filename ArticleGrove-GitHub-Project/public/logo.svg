@@ -1,8 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 76" role="img" aria-labelledby="title desc">
   <title id="title">ArticleGrove</title>
   <desc id="desc">ArticleGrove — Read, Learn, Discover</desc>
-  <rect x="2" y="5" width="66" height="66" rx="5" fill="#e91e42"/>
-  <path d="M19 52V25h8v4c2-3 5-5 10-5 8 0 12 5 12 14v14h-9V39c0-5-2-8-6-8s-6 3-6 8v13z" fill="#fff"/>
-  <text x="82" y="43" font-family="Georgia, 'Times New Roman', serif" font-size="37" font-weight="700" letter-spacing="-1.4" fill="#07152f">Article<tspan fill="#e91e42">Grove</tspan></text>
-  <text x="84" y="62" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="700" letter-spacing="2.4" fill="#07152f">READ · LEARN · DISCOVER</text>
+  <text x="2" y="43" font-family="Georgia, 'Times New Roman', serif" font-size="37" font-weight="700" letter-spacing="-1.4" fill="#07152f">Article<tspan fill="#e91e42">Grove</tspan></text>
+  <text x="4" y="62" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="700" letter-spacing="2.4" fill="#07152f">READ · LEARN · DISCOVER</text>
 </svg>
