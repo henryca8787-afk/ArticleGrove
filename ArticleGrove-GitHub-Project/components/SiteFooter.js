@@ -1,13 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="footer-main wrap">
         <div className="footer-brand">
-          <Link href="/" className="brand magazine-brand brand-invert" aria-label="ArticleGrove home">
-            <span className="brand-mark magazine-mark">AG</span>
-            <span className="brand-word">Article<span>Grove</span><small>READ · LEARN · DISCOVER</small></span>
+          <Link href="/" className="footer-logo" aria-label="ArticleGrove home">
+            <Image src="/logo.svg" alt="ArticleGrove — Read, Learn, Discover" width={240} height={64} />
           </Link>
           <p>Ideas, stories and perspectives<br/>worth your time.</p>
         </div>
