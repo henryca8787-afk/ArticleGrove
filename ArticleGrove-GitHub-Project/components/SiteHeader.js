@@ -1,2 +1,43 @@
 import Link from "next/link";
-export default function SiteHeader(){return <header className="site-header"><div className="header-inner wrap"><Link href="/" className="brand" aria-label="ArticleGrove home"><span className="brand-mark">a<span>.</span></span><span>article<span>grove</span></span></Link><nav className="main-nav" aria-label="Main navigation"><Link href="/articles">Articles</Link><Link href="/categories">Topics</Link><Link href="/about">About</Link></nav><div className="header-actions"><Link className="search-link" href="/search" aria-label="Search articles">⌕</Link><Link className="header-cta" href="/articles">Start reading <span>↗</span></Link></div></div></header>}
+import Image from "next/image";
+import { getCategories } from "@/lib/content";
+
+export default async function SiteHeader() {
+  const categories = await getCategories();
+  const links = categories.slice(0, 7);
+  return (
+    <>
+      <div className="utility-bar">
+        <div className="wrap utility-inner">
+          <span>Independent publishing for curious readers</span>
+          <div><Link href="/about">About</Link><Link href="/contact">Contact</Link></div>
+        </div>
+      </div>
+      <header className="masthead">
+        <div className="wrap masthead-inner">
+          <Link href="/" className="masthead-logo" aria-label="ArticleGrove home">
+            <Image src="/logo.svg" alt="ArticleGrove — Read, Learn, Discover" width={240} height={64} priority />
+          </Link>
+          <div className="masthead-description">Thoughtful reads on the subjects<br/>that shape everyday life.</div>
+          <Link href="/search" className="masthead-search" aria-label="Search ArticleGrove"><span aria-hidden="true">⌕</span><small>SEARCH</small></Link>
+          <details className="mobile-menu">
+            <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
+            <nav aria-label="Mobile navigation">
+              <Link href="/">Home</Link><Link href="/articles">Latest articles</Link>
+              {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
+              <Link href="/categories">All topics</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link>
+            </nav>
+          </details>
+        </div>
+      </header>
+      <nav className="category-nav" aria-label="Main navigation">
+        <div className="wrap category-nav-inner">
+          <Link href="/" className="nav-home">HOME</Link>
+          <Link href="/articles">LATEST</Link>
+          {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title.toUpperCase()}</Link>)}
+          <Link href="/categories">ALL TOPICS</Link>
+        </div>
+      </nav>
+    </>
+  );
+}
