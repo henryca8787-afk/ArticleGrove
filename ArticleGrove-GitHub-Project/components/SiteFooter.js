@@ -7,7 +7,7 @@ export default function SiteFooter() {
       <div className="footer-main wrap">
         <div className="footer-brand">
           <Link href="/" className="footer-logo" aria-label="ArticleGrove home">
-            <Image src="/logo.svg" alt="ArticleGrove — Read, Learn, Discover" width={240} height={64} />
+            <Image src="/logo-footer.svg" alt="ArticleGrove — Read, Learn, Discover" width={240} height={64} />
           </Link>
           <p>Ideas, stories and perspectives<br/>worth your time.</p>
         </div>
