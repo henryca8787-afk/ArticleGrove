@@ -1,2 +1,38 @@
 import Link from "next/link";
-export default function SiteHeader(){return <header className="site-header"><div className="header-inner wrap"><Link href="/" className="brand" aria-label="ArticleGrove home"><span className="brand-mark">a<span>.</span></span><span>article<span>grove</span></span></Link><nav className="main-nav" aria-label="Main navigation"><Link href="/articles">Articles</Link><Link href="/categories">Topics</Link><Link href="/about">About</Link></nav><div className="header-actions"><Link className="search-link" href="/search" aria-label="Search articles">⌕</Link><Link className="header-cta" href="/articles">Start reading <span>↗</span></Link></div></div></header>}
+import { getCategories } from "@/lib/content";
+
+export default async function SiteHeader() {
+  const categories = await getCategories();
+  return (
+    <>
+      <div className="mag-topbar">
+        <div className="wrap mag-topbar-inner">
+          <span>INDEPENDENT IDEAS FOR CURIOUS READERS</span>
+          <div><Link href="/about">About us</Link><Link href="/contact">Contact</Link></div>
+        </div>
+      </div>
+      <header className="site-header">
+        <div className="header-inner wrap">
+          <Link href="/" className="brand magazine-brand" aria-label="ArticleGrove home">
+            <span className="brand-mark magazine-mark">AG</span>
+            <span className="brand-word">Article<span>Grove</span><small>READ · LEARN · DISCOVER</small></span>
+          </Link>
+          <div className="mag-header-note">Ideas, stories &amp; perspectives<br/><b>Worth your time.</b></div>
+          <div className="header-actions">
+            <Link className="search-link" href="/search" aria-label="Search articles">⌕</Link>
+            <Link className="header-cta" href="/articles">Explore articles <span>↗</span></Link>
+          </div>
+        </div>
+      </header>
+      <nav className="mag-nav" aria-label="Main navigation">
+        <div className="wrap mag-nav-inner">
+          <Link href="/" className="mag-home-link">HOME</Link>
+          <Link href="/articles">LATEST</Link>
+          {categories.slice(0, 6).map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title.toUpperCase()}</Link>)}
+          <Link href="/categories">ALL TOPICS</Link>
+          <Link href="/about">ABOUT</Link>
+        </div>
+      </nav>
+    </>
+  );
+}
