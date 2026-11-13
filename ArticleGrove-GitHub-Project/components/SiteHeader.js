@@ -1,36 +1,41 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getCategories } from "@/lib/content";
 
 export default async function SiteHeader() {
   const categories = await getCategories();
+  const links = categories.slice(0, 7);
   return (
     <>
-      <div className="mag-topbar">
-        <div className="wrap mag-topbar-inner">
-          <span>INDEPENDENT IDEAS FOR CURIOUS READERS</span>
-          <div><Link href="/about">About us</Link><Link href="/contact">Contact</Link></div>
+      <div className="utility-bar">
+        <div className="wrap utility-inner">
+          <span>Independent publishing for curious readers</span>
+          <div><Link href="/about">About</Link><Link href="/contact">Contact</Link></div>
         </div>
       </div>
-      <header className="site-header">
-        <div className="header-inner wrap">
-          <Link href="/" className="brand magazine-brand" aria-label="ArticleGrove home">
-            <span className="brand-mark magazine-mark">AG</span>
-            <span className="brand-word">Article<span>Grove</span><small>READ · LEARN · DISCOVER</small></span>
+      <header className="masthead">
+        <div className="wrap masthead-inner">
+          <Link href="/" className="masthead-logo" aria-label="ArticleGrove home">
+            <Image src="/logo.svg" alt="ArticleGrove — Read, Learn, Discover" width={240} height={64} priority />
           </Link>
-          <div className="mag-header-note">Ideas, stories &amp; perspectives<br/><b>Worth your time.</b></div>
-          <div className="header-actions">
-            <Link className="search-link" href="/search" aria-label="Search articles">⌕</Link>
-            <Link className="header-cta" href="/articles">Explore articles <span>↗</span></Link>
-          </div>
+          <div className="masthead-description">Thoughtful reads on the subjects<br/>that shape everyday life.</div>
+          <Link href="/search" className="masthead-search" aria-label="Search ArticleGrove"><span aria-hidden="true">⌕</span><small>SEARCH</small></Link>
+          <details className="mobile-menu">
+            <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
+            <nav aria-label="Mobile navigation">
+              <Link href="/">Home</Link><Link href="/articles">Latest articles</Link>
+              {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
+              <Link href="/categories">All topics</Link><Link href="/about">About</Link><Link href="/contact">Contact</Link>
+            </nav>
+          </details>
         </div>
       </header>
-      <nav className="mag-nav" aria-label="Main navigation">
-        <div className="wrap mag-nav-inner">
-          <Link href="/" className="mag-home-link">HOME</Link>
+      <nav className="category-nav" aria-label="Main navigation">
+        <div className="wrap category-nav-inner">
+          <Link href="/" className="nav-home">HOME</Link>
           <Link href="/articles">LATEST</Link>
-          {categories.slice(0, 6).map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title.toUpperCase()}</Link>)}
+          {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title.toUpperCase()}</Link>)}
           <Link href="/categories">ALL TOPICS</Link>
-          <Link href="/about">ABOUT</Link>
         </div>
       </nav>
     </>
