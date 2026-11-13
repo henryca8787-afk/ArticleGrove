@@ -6,58 +6,105 @@ import { siteConfig } from "@/lib/site";
 
 export const revalidate = 60;
 
+function formatDate(value) {
+  if (!value) return "Latest stories";
+  return new Date(value).toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric" });
+}
+
 export default async function HomePage() {
   const [articles, categories] = await Promise.all([getArticles(), getCategories()]);
-  const featured = articles.find((a) => a.featured) || articles[0];
-  const latest = articles.filter((a) => a.slug !== featured?.slug).slice(0, 6);
+  const featured = articles.find((article) => article.featured) || articles[0];
+  const remaining = articles.filter((article) => article.slug !== featured?.slug);
+  const latest = remaining.slice(0, 6);
+  const sidebarArticles = remaining.slice(0, 4);
+  const secondaryFeatured = remaining.slice(0, 2);
 
   return (
     <>
-      <section className="hero wrap">
-        <div className="hero-copy">
-          <span className="eyebrow"><span className="eyebrow-dot" /> IDEAS FOR CURIOUS MINDS</span>
-          <h1>Read something<br /><em>worth your time.</em></h1>
-          <p className="hero-lede">Clear thinking. Useful knowledge. Fresh perspectives. Discover practical articles that help you understand more and do better.</p>
-          <div className="hero-actions">
-            <Link className="button button-dark" href="/articles">Explore articles <span>↗</span></Link>
-            <Link className="text-link" href="/about">Our story <span>→</span></Link>
+      <div className="mag-datebar">
+        <div className="wrap mag-datebar-inner"><span>{formatDate(new Date().toISOString())}</span><span>READ · LEARN · DISCOVER</span></div>
+      </div>
+
+      {articles.length > 0 && (
+        <section className="mag-breaking wrap" aria-label="Latest headline">
+          <span className="breaking-label">TRENDING NOW</span>
+          <Link href={`/article/${articles[0].slug}`}>{articles[0].title}</Link>
+          <span className="breaking-arrow">LATEST STORY&nbsp; ↗</span>
+        </section>
+      )}
+
+      <section className="mag-lead wrap">
+        <div className="mag-section-title"><span>THE DAILY READ</span><h1>Stories that <em>inform.</em><br/>Ideas that inspire.</h1></div>
+        {featured ? (
+          <div className="mag-lead-grid">
+            <ArticleCard article={featured} featured />
+            <div className="mag-lead-side">
+              <div className="mag-side-heading"><span>EDITOR'S PICKS</span><Link href="/articles">VIEW ALL ↗</Link></div>
+              {secondaryFeatured.map((article, index) => (
+                <article className="mag-mini-story" key={article.slug}>
+                  <Link className="mag-mini-image" href={`/article/${article.slug}`}>
+                    {article.image ? <img src={article.image} alt={article.imageAlt || article.title} loading="lazy"/> : <span>{String(index + 1).padStart(2, "0")}</span>}
+                  </Link>
+                  <div><span className="mag-mini-category">{article.category?.title || "FEATURED"}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3><small>{article.readingTime || "5 min read"}</small></div>
+                </article>
+              ))}
+              <div className="mag-ad-placeholder"><span>ADVERTISEMENT</span><b>Your brand could be here</b><small>Advertising space</small></div>
+            </div>
           </div>
-          <div className="hero-proof"><span className="proof-avatars">A <b>G</b> R</span><span>Made for readers who like to keep learning.</span></div>
-        </div>
-        <div className="hero-art" aria-label="ArticleGrove editorial illustration">
-          <div className="art-orbit orbit-one"></div><div className="art-orbit orbit-two"></div>
-          <div className="art-sun"></div><div className="art-book book-back"></div>
-          <div className="art-book book-front"><span>THE<br/>OPEN<br/><i>MIND</i></span><small>VOL. 01 — IDEAS</small></div>
-          <div className="art-leaf leaf-one"></div><div className="art-leaf leaf-two"></div>
-          <span className="art-note note-top">Curiosity<br/>starts here.</span>
-          <span className="art-note note-bottom">READ · LEARN · DISCOVER</span>
+        ) : (
+          <div className="mag-empty"><h2>Your next great read starts here.</h2><p>New stories will appear here as soon as you publish them in ArticleGrove Studio.</p></div>
+        )}
+      </section>
+
+      <section className="mag-topicbar wrap" aria-label="Browse topics">
+        <strong>EXPLORE</strong>
+        {categories.slice(0, 8).map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
+        <Link className="mag-topic-all" href="/categories">ALL TOPICS →</Link>
+      </section>
+
+      <section className="mag-latest wrap">
+        <div className="mag-section-heading"><div><span className="mag-kicker">FRESHLY PUBLISHED</span><h2>Latest articles</h2></div><Link href="/articles">VIEW ALL ARTICLES&nbsp; ↗</Link></div>
+        {latest.length ? (
+          <div className="mag-content-grid">
+            <div className="mag-article-grid">{latest.map((article) => <ArticleCard key={article.slug} article={article}/>)}</div>
+            <aside className="mag-sidebar">
+              <div className="mag-side-heading"><span>MOST READ</span><Link href="/articles">MORE ↗</Link></div>
+              {sidebarArticles.map((article, index) => (
+                <article className="mag-popular" key={article.slug}>
+                  <span className="mag-popular-number">{String(index + 1).padStart(2, "0")}</span>
+                  <div><span>{article.category?.title || "ARTICLE"}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3></div>
+                </article>
+              ))}
+              <div className="mag-newsletter">
+                <span className="mag-kicker">THE ARTICLE GROVE LETTER</span>
+                <h3>Good stories.<br/><em>Delivered to you.</em></h3>
+                <p>Get new ideas and useful reads in your inbox.</p>
+                <NewsletterForm/>
+              </div>
+              <div className="mag-ad-placeholder mag-ad-tall"><span>ADVERTISEMENT</span><b>Thoughtful content.<br/>Great brands.</b><small>Advertising space</small></div>
+            </aside>
+          </div>
+        ) : (
+          <div className="mag-empty"><p>There are no published articles yet. Publish your first story in Sanity Studio to populate this section.</p></div>
+        )}
+      </section>
+
+      <section className="mag-category-feature wrap">
+        <div className="mag-section-heading"><div><span className="mag-kicker">FIND YOUR NEXT INTEREST</span><h2>Explore by topic</h2></div><Link href="/categories">ALL CATEGORIES&nbsp; ↗</Link></div>
+        <div className="mag-category-grid">
+          {categories.slice(0, 4).map((category, index) => (
+            <Link className={`mag-category-tile mag-category-${index + 1}`} href={`/category/${category.slug}`} key={category.slug}>
+              <span>0{index + 1}</span><b>{category.title}</b><i>Explore stories&nbsp; →</i>
+            </Link>
+          ))}
         </div>
       </section>
 
-      <section className="category-strip wrap" aria-label="Browse topics">
-        <span className="strip-label">EXPLORE TOPICS</span>
-        <div className="category-pills">
-          {categories.slice(0, 6).map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
-        </div>
-        <Link className="all-topics" href="/categories">All topics ↗</Link>
+      <section className="mag-bottom-newsletter wrap">
+        <div><span className="mag-kicker">A MORE INTERESTING INBOX</span><h2>Stay curious.<br/><em>Keep discovering.</em></h2><p>Thoughtful articles and fresh perspectives, delivered occasionally.</p></div>
+        <NewsletterForm/>
       </section>
 
-      {featured && <section className="featured-section wrap">
-        <div className="section-heading"><div><span className="eyebrow">EDITOR'S PICK</span><h2>A good place to start.</h2></div><Link className="text-link" href="/articles">View all articles ↗</Link></div>
-        <ArticleCard article={featured} featured />
-      </section>}
-
-      <section className="latest-section wrap">
-        <div className="section-heading"><div><span className="eyebrow">FRESH FROM THE GROVE</span><h2>Latest articles</h2><p className="section-subtitle">Ideas and practical advice for wherever curiosity takes you.</p></div><Link className="text-link" href="/articles">Browse the library ↗</Link></div>
-        <div className="article-grid">
-          {latest.map((article) => <ArticleCard key={article.slug} article={article} />)}
-        </div>
-      </section>
-
-      <section className="newsletter-band wrap">
-        <div><span className="eyebrow eyebrow-light">A LITTLE MORE INSIGHT</span><h2>Good reads.<br/><em>Delivered occasionally.</em></h2><p>Get thoughtful articles and useful ideas in your inbox. No noise, just reading worth keeping.</p></div>
-        <NewsletterForm />
-      </section>
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
         "@context":"https://schema.org","@type":"WebSite","name":siteConfig.name,"url":siteConfig.url,
         "description":"Useful articles, practical guides and fresh perspectives for curious readers.",
