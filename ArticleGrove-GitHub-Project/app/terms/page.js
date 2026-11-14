@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Terms of Use",
-  description: "Read the terms that apply when using the ArticleGrove website and its published content."
+  description: "Read the terms that apply when using the ArticleGrove website and its published content.",
+  alternates: { canonical: "/terms" }
 };
 
 export default function TermsPage() {
