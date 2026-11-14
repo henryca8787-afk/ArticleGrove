@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { getArticles, getCategories } from "@/lib/content";
 import ArticleCard from "@/components/ArticleCard";
-import NewsletterForm from "@/components/NewsletterForm";
 import { siteConfig } from "@/lib/site";
 
 export const revalidate = 60;
@@ -30,7 +29,6 @@ export default async function HomePage() {
   const ticker = articles[0];
 
   return <>
-    <div className="site-ad wrap"><span>ADVERTISEMENT</span><div>728 × 90</div></div>
     {ticker && <div className="breaking-strip"><div className="wrap breaking-inner"><b>BREAKING NEWS</b><Link href={`/article/${ticker.slug}`}>{ticker.title}</Link><span>● &nbsp;LATEST</span></div></div>}
 
     <div className="wrap home-layout">
@@ -63,8 +61,11 @@ export default async function HomePage() {
             {popular.map((article,index)=><div className="popular-row" key={article.slug}><b>{String(index+1).padStart(2,"0")}</b><div><span className="story-category">{article.category?.title || "Article"}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3><small>{dateLabel(article.publishedAt)}</small></div></div>)}
           </section>
         </>}
-        <section className="sidebar-newsletter"><h2>Get the latest stories</h2><p>Fresh reads and useful ideas, delivered to your inbox.</p><NewsletterForm/></section>
-        <div className="sidebar-ad"><span>ADVERTISEMENT</span><b>Advertisement space</b></div>
+        <section className="sidebar-newsletter">
+          <h2>Contact the editors</h2>
+          <p>Have a correction, question or suggestion about an article? The editorial team welcomes reader feedback.</p>
+          <Link className="card-read" href="/contact">CONTACT ARTICLEGROVE →</Link>
+        </section>
         {categories.length > 0 && <section className="sidebar-section topic-sidebar"><div className="section-bar"><h2>Categories</h2><Link href="/categories">ALL</Link></div>
           {categories.map((category)=><Link className="topic-link" key={category.slug} href={`/category/${category.slug}`}>{category.title}<span>→</span></Link>)}
         </section>}
