@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import MobileMenu from "@/components/MobileMenu";
 import { getCategories } from "@/lib/content";
 
 export default async function SiteHeader() {
@@ -20,14 +21,7 @@ export default async function SiteHeader() {
           </Link>
           <div className="masthead-description">Thoughtful reads on the subjects<br/>that shape everyday life.</div>
           <Link href="/search" className="masthead-search" aria-label="Search ArticleGrove"><span aria-hidden="true">⌕</span><small>SEARCH</small></Link>
-          <details className="mobile-menu">
-            <summary aria-label="Open navigation menu"><span></span><span></span><span></span></summary>
-            <nav aria-label="Mobile navigation">
-              <Link href="/">Home</Link><Link href="/articles">Latest articles</Link>
-              {links.map((category) => <Link key={category.slug} href={`/category/${category.slug}`}>{category.title}</Link>)}
-              <Link href="/categories">All topics</Link>
-            </nav>
-          </details>
+          <MobileMenu categories={links} />
         </div>
       </header>
       <nav className="category-nav" aria-label="Main navigation">
