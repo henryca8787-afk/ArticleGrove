@@ -22,14 +22,16 @@ function SmallStory({ article }) {
 
 export default async function HomePage() {
   const [articles, categories] = await Promise.all([getArticles(), getCategories()]);
-  const lead = articles.slice(0, 3);
-  const latest = articles.slice(3, 9);
-  const editors = articles.slice(9, 13);
-  const popular = articles.slice(0, 5);
+  const featuredArticles = articles.filter((article) => article.featured);
+  const lead = (featuredArticles.length ? featuredArticles : articles).slice(0, 3);
+  const leadSlugs = new Set(lead.map((article) => article.slug));
+  const latest = articles.filter((article) => !leadSlugs.has(article.slug)).slice(0, 6);
+  const editors = featuredArticles.filter((article) => !leadSlugs.has(article.slug)).slice(0, 4);
+  const recent = articles.slice(0, 5);
   const ticker = articles[0];
 
   return <>
-    {ticker && <div className="breaking-strip"><div className="wrap breaking-inner"><b>BREAKING NEWS</b><Link href={`/article/${ticker.slug}`}>{ticker.title}</Link><span>● &nbsp;LATEST</span></div></div>}
+    {ticker && <div className="breaking-strip"><div className="wrap breaking-inner"><b>LATEST ARTICLE</b><Link href={`/article/${ticker.slug}`}>{ticker.title}</Link><span>● &nbsp;LATEST</span></div></div>}
 
     <div className="wrap home-layout">
       <main className="home-main">
@@ -38,7 +40,7 @@ export default async function HomePage() {
             {lead.map((article) => <ArticleCard key={article.slug} article={article} featured/>)}
           </section>
           {latest.length > 0 && <section className="news-section">
-            <div className="section-bar"><h2>Latest News</h2><Link href="/articles">VIEW ALL&nbsp; →</Link></div>
+            <div className="section-bar"><h2>Latest Articles</h2><Link href="/articles">VIEW ALL&nbsp; →</Link></div>
             <div className="compact-news-list">{latest.map((article)=><SmallStory key={article.slug} article={article}/>)}</div>
           </section>}
           {editors.length > 0 && <section className="news-section">
@@ -54,11 +56,11 @@ export default async function HomePage() {
 
       <aside className="home-sidebar">
         {articles.length > 0 && <>
-          <section className="sidebar-section"><div className="section-bar"><h2>Latest News</h2></div>
+          <section className="sidebar-section"><div className="section-bar"><h2>Latest Articles</h2></div>
             {articles.slice(0,4).map((article)=><SmallStory key={article.slug} article={article}/>)}
           </section>
-          <section className="sidebar-section"><div className="section-bar"><h2>Popular Posts</h2></div>
-            {popular.map((article,index)=><div className="popular-row" key={article.slug}><b>{String(index+1).padStart(2,"0")}</b><div><span className="story-category">{article.category?.title || "Article"}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3><small>{dateLabel(article.publishedAt)}</small></div></div>)}
+          <section className="sidebar-section"><div className="section-bar"><h2>Recently Published</h2></div>
+            {recent.map((article,index)=><div className="popular-row" key={article.slug}><b>{String(index+1).padStart(2,"0")}</b><div><span className="story-category">{article.category?.title || "Article"}</span><h3><Link href={`/article/${article.slug}`}>{article.title}</Link></h3><small>{dateLabel(article.publishedAt)}</small></div></div>)}
           </section>
         </>}
         <section className="sidebar-newsletter">
