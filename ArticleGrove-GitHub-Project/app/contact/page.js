@@ -1,6 +1,7 @@
 export const metadata = {
   title: "Contact ArticleGrove",
-  description: "Contact the ArticleGrove Editorial Team with questions, corrections, feedback or collaboration enquiries."
+  description: "Contact the ArticleGrove Editorial Team with questions, corrections, feedback or collaboration enquiries.",
+  alternates: { canonical: "/contact" }
 };
 
 export default function ContactPage() {
