@@ -699,3 +699,19 @@ body{background:var(--page);color:var(--body);font-family:Arial,Helvetica,sans-s
     grid-column: auto;
   }
 }
+
+
+/* Higher-specificity overrides for the legacy magazine image heights */
+.article-card-clean.article-card.magazine-card .magazine-card-art,
+.article-card-clean.article-card.magazine-card:not(.article-card-featured) .magazine-card-art,
+.article-grid-wide .article-card-clean.article-card.magazine-card .magazine-card-art,
+.editor-grid .article-card-clean.article-card.magazine-card .magazine-card-art {
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+}
+@media (max-width: 760px) {
+  .feature-stack .article-card-clean.article-card.magazine-card .magazine-card-art {
+    height: auto !important;
+    aspect-ratio: 16 / 9;
+  }
+}
