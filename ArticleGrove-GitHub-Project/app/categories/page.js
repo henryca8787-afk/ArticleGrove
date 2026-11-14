@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { getCategories } from "@/lib/content";
-export const metadata = { title: "Topics & Categories", description: "Explore ArticleGrove topics including technology, business, lifestyle, money and personal growth." };
+export const metadata = {
+  title: "Topics & Categories",
+  description: "Explore ArticleGrove topics including technology, business, lifestyle, money and personal growth.",
+  alternates: { canonical: "/categories" }
+};
 export default async function CategoriesPage() {
   const categories = await getCategories();
   return <div className="page-shell wrap"><div className="page-intro"><span className="eyebrow">FIND YOUR NEXT READ</span><h1>Explore by <em>topic.</em></h1><p>Follow a question, discover a new interest or find a practical guide for something on your mind.</p></div>
