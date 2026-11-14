@@ -1,6 +1,6 @@
 import { getArticles } from "@/lib/content";
 import ArticleCard from "@/components/ArticleCard";
-export const metadata = { title: "Search Articles", description: "Search ArticleGrove for practical guides, explainers and useful ideas." };
+export const metadata = { title: "Search Articles", description: "Search ArticleGrove for practical guides, explainers and useful ideas.", alternates: { canonical: "/search" }, robots: { index: false, follow: true } };
 export default async function SearchPage({ searchParams }) {
   const q = (searchParams.q || "").trim().toLowerCase();
   const articles = await getArticles();
