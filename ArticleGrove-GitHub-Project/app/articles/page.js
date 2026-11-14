@@ -1,7 +1,11 @@
 import { getArticles } from "@/lib/content";
 import ArticleCard from "@/components/ArticleCard";
 
-export const metadata = { title: "All Articles", description: "Browse all ArticleGrove articles, explainers, how-to guides and practical insights." };
+export const metadata = {
+  title: "All Articles",
+  description: "Browse all ArticleGrove articles, explainers, how-to guides and practical insights.",
+  alternates: { canonical: "/articles" }
+};
 export const revalidate = 60;
 
 export default async function ArticlesPage() {
