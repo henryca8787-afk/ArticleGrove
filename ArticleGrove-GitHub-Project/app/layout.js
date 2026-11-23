@@ -6,9 +6,8 @@ import { siteConfig } from "@/lib/site";
 
 const GA_MEASUREMENT_ID = "G-JF0P1WN4C4";
 
-// Set this in Vercel to the AdSense publisher ID (for example: ca-pub-1234567890123456).
-// The AdSense loader stays disabled until a valid publisher ID is configured.
-const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+// Public AdSense publisher ID supplied for ArticleGrove.
+const ADSENSE_CLIENT_ID = "ca-pub-1247680336934480";
 const hasValidAdsenseClientId =
   typeof ADSENSE_CLIENT_ID === "string" &&
   /^ca-pub-\d{16}$/.test(ADSENSE_CLIENT_ID);
