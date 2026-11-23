@@ -12,7 +12,7 @@ export default function SiteFooter() {
           <p>Ideas, stories and perspectives<br/>worth your time.</p>
         </div>
         <div className="footer-col"><b>Explore</b><Link href="/articles">Latest articles</Link><Link href="/categories">All topics</Link><Link href="/about">About ArticleGrove</Link></div>
-        <div className="footer-col"><b>Information</b><Link href="/contact">Contact</Link><Link href="/privacy">Privacy policy</Link><Link href="/terms">Terms of use</Link></div>
+        <div className="footer-col"><b>Information</b><Link href="/contact">Contact</Link><Link href="/editorial-standards">Editorial standards</Link><Link href="/privacy">Privacy policy</Link><Link href="/terms">Terms of use</Link></div>
         <div className="footer-note"><span className="eyebrow eyebrow-light">READ · LEARN · DISCOVER</span><p>Stay curious.<br/><em>Keep discovering.</em></p></div>
       </div>
       <div className="footer-bottom wrap"><span>© {new Date().getFullYear()} ArticleGrove. All rights reserved.</span><span>Independent ideas for curious readers.</span></div>
