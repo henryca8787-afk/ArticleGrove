@@ -1,4 +1,3 @@
-
 import "./globals.css";
 import Script from "next/script";
 import SiteHeader from "@/components/SiteHeader";
@@ -6,6 +5,13 @@ import SiteFooter from "@/components/SiteFooter";
 import { siteConfig } from "@/lib/site";
 
 const GA_MEASUREMENT_ID = "G-JF0P1WN4C4";
+
+// Set this in Vercel to the AdSense publisher ID (for example: ca-pub-1234567890123456).
+// The AdSense loader stays disabled until a valid publisher ID is configured.
+const ADSENSE_CLIENT_ID = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+const hasValidAdsenseClientId =
+  typeof ADSENSE_CLIENT_ID === "string" &&
+  /^ca-pub-\d{16}$/.test(ADSENSE_CLIENT_ID);
 
 export const metadata = {
   metadataBase: new URL(siteConfig.url),
@@ -47,6 +53,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
+        {hasValidAdsenseClientId && (
+          <Script
+            id="google-adsense"
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${ADSENSE_CLIENT_ID}`}
+            strategy="beforeInteractive"
+            async
+            crossOrigin="anonymous"
+          />
+        )}
+
         <Script
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
           strategy="afterInteractive"
