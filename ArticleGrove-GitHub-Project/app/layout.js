@@ -45,7 +45,10 @@ export const metadata = {
       "Useful articles, practical guides and fresh perspectives for curious readers.",
     images: ["/og-image.svg"]
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  other: {
+    "google-adsense-account": "ca-pub-1247680336934480"
+  }
 };
 
 export default function RootLayout({ children }) {
