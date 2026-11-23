@@ -37,7 +37,7 @@ export default async function ArticlePage({ params }) {
     </header>
     {article.image && <div className="article-cover"><img src={article.image} alt={article.imageAlt || article.title}/></div>}
     <div className="article-content"><div className="article-body">{article.body ? <PortableText value={article.body} components={portableComponents}/> : <p>{article.content || ""}</p>}</div>
-      <aside className="article-aside"><span className="eyebrow">KEEP EXPLORING</span><p>Curiosity is a good habit. Find another useful idea in the ArticleGrove library.</p><Link className="button button-outline" href="/articles">More articles ↗</Link></aside>
+      <aside className="article-aside"><span className="eyebrow">OUR EDITORIAL PROCESS</span><p>Learn how ArticleGrove researches topics, uses AI-assisted tools, handles corrections and identifies expert review.</p><Link className="button button-outline" href="/editorial-standards">Editorial standards ↗</Link><p>Keep exploring the ArticleGrove library.</p><Link className="button button-outline" href="/articles">More articles ↗</Link></aside>
     </div>
     <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
       "@context":"https://schema.org","@type":"Article","headline":article.title,"description":article.excerpt,
